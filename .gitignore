@@ -4,3 +4,7 @@ docs/
 
 # Ignorer tous les fichiers
 python-mastery.code-workspace
+
+# Ignorer un fichier spécifique par projet
+02-task-manager/gestionnaire_test.py
+02-task-manager/gestionnaire_no_fnc.py

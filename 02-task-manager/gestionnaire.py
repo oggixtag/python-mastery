@@ -38,9 +38,9 @@ print(type(taches))
 while True:
 
     #Action à effectuer
-    action = input("Que voulez-vous faire ? (ajouter, mettre à jour, supprimer, afficher, quitter) : ")
+    action = input("Que voulez-vous faire ? (ajouter [a], mettre à jour [m], supprimer [s], afficher [r], quitter [q]) : ")
 
-    if action == 'ajouter':
+    if action == 'a':
 
         #taches = [
         #      {"nom": "Acheter du pain", "statut": "à faire"},
@@ -55,7 +55,7 @@ while True:
 
         print("Tache ajoutée avec succès !")
 
-    elif action == 'mettre à jour':
+    elif action == 'm':
 
         print("Affichage des taches avant la mise à jour")
         affichage(taches)
@@ -82,7 +82,7 @@ while True:
         print("Tache mise à jour avec succès !")
         affichage(taches)
 
-    elif action == 'supprimer':
+    elif action == 's':
 
         print("Affichage des taches avant la mise à jour")
         affichage(taches)
@@ -101,9 +101,9 @@ while True:
         print("Tache supprimée avec succès !")
         affichage(taches)
 
-    elif action == 'afficher':
+    elif action == 'r':
         affichage(taches)
 
-    elif action == 'quitter':
+    elif action == 'q':
         print("Au revoir !")
         break
