@@ -22,15 +22,26 @@ def sauvegarder(ma_liste, chemin_fichier):
         # ensure_ascii=False permet de conserver les caractères non ASCII (comme les accents) dans le fichier JSON au lieu de les échapper avec des séquences d'échappement Unicode.
         json.dump(ma_liste, fichier,indent=4, ensure_ascii=False)
 
+#Fonction de recherche d'une tache dans la liste des taches
+def recherche(ma_liste, nom_tache):
+    resultat = []
+    nom_tache = nom_tache.lower()
+    for tache in ma_liste:
+        if nom_tache in tache['nom'].lower():
+            resultat.append(tache)
+    return resultat
+
 ################# Programme principal #################
 
 #On prépare le chemin du fichier JSON (dossier data a la racine du projet)
 base_dir = os.path.dirname(__file__)
 data_dir = os.path.normpath(os.path.join(base_dir, 'data'))
+#print(f"Chemin du dossier data : {data_dir}")
 fichier_taches = os.path.join(data_dir, 'taches.json')
+#Création du dossier data s'il n'existe pas déjà
 os.makedirs(data_dir, exist_ok=True)
 
-#On vérifie si le fichier JSON existe déjà, sinon on le crée
+#On vérifie si le fichier JSON existe déjà
 if os.path.exists(fichier_taches):
     with open(fichier_taches, 'r', encoding='utf-8') as fichier:
         taches = json.load(fichier)
@@ -62,9 +73,19 @@ print(type(statut_tache))
 while True:
 
     #Action à effectuer
-    action = input("Que voulez-vous faire ? (ajouter [a], mettre à jour [m], supprimer [s], afficher [r], quitter [q]) : ")
+    action = input("Que voulez-vous faire ? (ajouter [a], mettre à jour [m], supprimer [s], afficher [f], quitter [q], rechercher [r]) : ")
 
-    if action == 'a':
+    if action == 'r':
+        #On demande à l'utilisateur la tache à rechercher
+        v_tache_a_rechercher = input("Nom de la tâche à rechercher : ")
+        resultat_recherche = recherche(taches, v_tache_a_rechercher)
+        if resultat_recherche:
+            print("Résultats de la recherche :")
+            affichage(resultat_recherche)
+        else:
+            print(f"🔍 Aucun résultat pour '{v_tache_a_rechercher}'.")
+
+    elif action == 'a':
 
         #On demande à l'utilisateur de saisir une tache
         v_nouvelle_tache = input("Nom de la novelle tâche : ")
@@ -77,6 +98,10 @@ while True:
         print("Tache ajoutée avec succès !")
 
     elif action == 'm':
+
+        if not taches:
+            print("La liste des taches est vide. Aucune tache à mettre à jour.")
+            continue #pour remonter directement au début de la boucle while
 
         print("Affichage des taches avant la mise à jour")
         affichage(taches)
@@ -107,6 +132,10 @@ while True:
 
     elif action == 's':
 
+        if not taches:
+            print("La liste des taches est vide. Aucune tache à mettre à supprimer.")
+            continue #pour remonter directement au début de la boucle while
+
         print("Affichage des taches avant la mise à jour")
         affichage(taches)
         
@@ -127,7 +156,7 @@ while True:
         print("Tache supprimée avec succès !")
         affichage(taches)
 
-    elif action == 'r':
+    elif action == 'f':
         affichage(taches)
 
     elif action == 'q':
