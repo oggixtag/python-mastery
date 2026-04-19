@@ -1,6 +1,7 @@
 # Ignorer un dossier entier
 venv/
 docs/
+02-task-manager/data/
 
 # Ignorer tous les fichiers
 python-mastery.code-workspace
