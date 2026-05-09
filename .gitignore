@@ -1,15 +1,20 @@
-# Ignorer un dossier entier
+# --- DOSSIERS GLOBAUX ---
 venv/
 docs/
-# Prj 02
+# Ignore tous les dossiers __pycache__ peu importe où ils sont
+**/__pycache__/
+
+# --- FICHIERS GLOBAUX ---
+*.code-workspace
+*.json
+# ignorer tous les fichiers de "mémoire" ou de test
+* - en memoire.py
+*_test.py
+
+# --- SPECIFIQUE PAR PROJET ---
+### Prj 02 (Task Manager)
 02-task-manager/data/
-# Prj 03
-03-web-perf-analyzer/data/
-03-web-perf-analyzer/__pycache__/
-
-# Ignorer tous les fichiers
-python-mastery.code-workspace
-
-# Ignorer un fichier spécifique par projet
-02-task-manager/gestionnaire_test.py
 02-task-manager/gestionnaire_no_fnc.py
+
+### Prj 03 (Web Perf Analyzer)
+03-web-perf-analyzer/data/
