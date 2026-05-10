@@ -3,6 +3,7 @@ venv/
 docs/
 # Ignore tous les dossiers __pycache__ peu importe où ils sont
 **/__pycache__/
+data/
 
 # --- FICHIERS GLOBAUX ---
 *.code-workspace
@@ -10,11 +11,6 @@ docs/
 # ignorer tous les fichiers de "mémoire" ou de test
 * - en memoire.py
 *_test.py
+*_no_fnc.py
 
 # --- SPECIFIQUE PAR PROJET ---
-### Prj 02 (Task Manager)
-02-task-manager/data/
-02-task-manager/gestionnaire_no_fnc.py
-
-### Prj 03 (Web Perf Analyzer)
-03-web-perf-analyzer/data/

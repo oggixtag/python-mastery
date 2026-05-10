@@ -34,10 +34,14 @@ def recherche(ma_liste, nom_tache):
 ################# Programme principal #################
 
 #On prépare le chemin du fichier JSON (dossier data a la racine du projet)
-base_dir = os.path.dirname(__file__)
-data_dir = os.path.normpath(os.path.join(base_dir, 'data'))
-#print(f"Chemin du dossier data : {data_dir}")
+base_dir = os.path.dirname(os.path.abspath(__file__))
+print(f"Chemin du fichier __file__ : {__file__}")
+print(f"Chemin du dossier data : {base_dir}")
+# On remonte de deux niveaux pour atteindre la racine du projet (src/p02_task_manager -> racine)
+data_dir = os.path.normpath(os.path.join(base_dir, '..', '..', 'data'))
 fichier_taches = os.path.join(data_dir, 'taches.json')
+print(f"Chemin du dossier data : {base_dir}")
+print(f"Chemin du fichier fichier_taches : {fichier_taches}")
 #Création du dossier data s'il n'existe pas déjà
 os.makedirs(data_dir, exist_ok=True)
 

@@ -1,3 +1,4 @@
+import os
 import json
 from contact import Contact
 
@@ -10,6 +11,14 @@ def afficher_menu():
     print("4. Supprimer un contact")
     print("5. Quitter")
     return input("Choisissez une option : ")
+
+# Préparation du chemin du fichier JSON (dossier data à la racine du projet)
+base_dir = os.path.dirname(os.path.abspath(__file__))
+data_dir = os.path.normpath(os.path.join(base_dir, '..', '..', 'data'))
+fichier_contacts = os.path.join(data_dir, 'contacts.json')
+
+# Création du dossier data s'il n'existe pas déjà
+os.makedirs(data_dir, exist_ok=True)
   
 # Fonction pour sauvegarder les contacts
 # Transforme les objets en dictionnaires et les écrit dans le fichier.
@@ -22,7 +31,7 @@ def sauvegarder_contacts(repertoire):
     liste_dicts = [contact.to_dict() for contact in repertoire]
 
     # 2. On ouvre le fichier et on écrit dedans
-    with open ("data/contacts.json","w", encoding="utf-8") as f:
+    with open (fichier_contacts,"w", encoding="utf-8") as f:
         # indent=4 : Indente le JSON pour le rendre lisible par un humain
         # ensure_ascii=False : Permet d'écrire les accents correctement
         json.dump(liste_dicts, f, indent=4, ensure_ascii=False)
@@ -31,7 +40,7 @@ def sauvegarder_contacts(repertoire):
 # Lit le fichier et transforme les dictionnaires en objets Contact.
 def charger_contact():
     try:
-        with open("data/contacts.json", "r", encoding="utf-8") as f:
+        with open(fichier_contacts, "r", encoding="utf-8") as f:
             donnees = json.load(f)
             # On reconstruit nos objets grâce au @classmethod
             return [Contact.from_dict(d) for d in donnees]
