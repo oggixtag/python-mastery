@@ -1,3 +1,8 @@
+################# Importation librairie #################
+from calculateur import ajouter, soustraire, multiplier, diviser
+################# Fonctions de gestion des taches #################
+
+################# Programme principal #################
 #Boucle dynamique pour la saisie et validation des entrées
 while True:
 
@@ -43,16 +48,23 @@ while True:
     #séparation de l'action (le calcul) de la réussite (l'affichage)
     try:
         if (operateur == '+'):
-            resultat = nombre_a + nombre_b
+            resultat = ajouter(nombre_a, nombre_b)
         elif (operateur == '-'):
-            resultat = nombre_a - nombre_b
+            resultat = soustraire(nombre_a, nombre_b)
         elif (operateur == '*'):
-            resultat = nombre_a * nombre_b
+            resultat = multiplier(nombre_a, nombre_b)
         elif (operateur == '/'):
-            resultat = nombre_a / nombre_b
+            resultat = diviser(nombre_a, nombre_b)
     #exceptions de la plus spécifique à la plus générale.
-    except ZeroDivisionError:
-        print("Erreur : Division par zéro. On recommence.")
+    #except ZeroDivisionError:
+    #    print("Erreur : Division par zéro. On recommence.")
+    except ValueError as e:
+        print(f"{e}")
+               #Demande de refaire une operation
+        autre_operation = input("Voulez-vous effectuer une autre opération ? (y/n) : ").lower()
+        if autre_operation == 'n':
+            print("Au revoir !")
+            break
     except Exception as e:
         print(f"Une erreur est survenue : {e}. On recommence.")
         continue    #pour remonter directement au début de la boucle while
