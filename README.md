@@ -10,8 +10,8 @@
 | Étape | Projet | Focus Technique | Statut |
 | :--- | :--- | :--- | :--- |
 | 1 | **Mini-Calculateur** | Logique & Exceptions | ✅ Terminé |
-| 2 | **Task Manager JSON** | Structures de données | 🔄 En cours |
-| 3 | **Web Perf Analyzer** | Data (CSV/Pandas) | ⏳ À venir |
+| 2 | **Task Manager JSON** | Structures de données | ✅ Terminé |
+| 3 | **Web Perf Analyzer** | Data (CSV/Pandas) | 🔄 En cours |
 | 4 | **Headless CMS API** | Flask & REST | ⏳ À venir |
 | 5 | **Auto-Reporting Pro** | Automatisation & APIs | ⏳ À venir |
 | 6 | **Dashboard Stratégique** | Architecture & Tests | ⏳ À venir |

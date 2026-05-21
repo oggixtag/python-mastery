@@ -1,6 +1,16 @@
-# Ignorer un dossier entier
+# --- DOSSIERS GLOBAUX ---
 venv/
 docs/
+# Ignore tous les dossiers __pycache__ peu importe où ils sont
+**/__pycache__/
+data/
 
-# Ignorer tous les fichiers
-python-mastery.code-workspace
+# --- FICHIERS GLOBAUX ---
+*.code-workspace
+*.json
+# ignorer tous les fichiers de "mémoire" ou de test
+* - en memoire.py
+*_test.py
+*_no_fnc.py
+
+# --- SPECIFIQUE PAR PROJET ---
