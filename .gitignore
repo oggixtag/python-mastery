@@ -3,6 +3,7 @@ venv/
 docs/
 # Ignore tous les dossiers __pycache__ peu importe où ils sont
 **/__pycache__/
+.pytest_cache
 data/
 
 # --- FICHIERS GLOBAUX ---
