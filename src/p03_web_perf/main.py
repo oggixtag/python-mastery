@@ -1,5 +1,7 @@
+################# Importation librairie #################
 from analyzer import WebAnalyzer
 
+################# Fonctions #################
 def afficher_menu():
     print("\n--- WEB PERF ANALYZER (DATA EDITION) ---")
     print("1. Analyser une nouvelle URL")
@@ -7,6 +9,7 @@ def afficher_menu():
     print("3. Quitter")
     return input("Choisissez une option : ").strip()
 
+################# Programme principal #################
 def main():
     analyzer = WebAnalyzer()
 

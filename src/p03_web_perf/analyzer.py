@@ -67,20 +67,44 @@ class WebAnalyzer:
 
         # Lecture du dataset avec Pandas
         df = pd.read_csv(self.csv_file)
+        total_analyses = len(df)
+
+        if total_analyses == 0:
+            return "Le fichiet est vide."
         
+        # 1. Calcul du taux de réussite global
+        #        
         # Filtrage des requêtes réussies pour ne pas fausser les moyennes de temps
         df_succes = df[df["Statut_HTTP"] == 200]
-        print(df_succes)  # Debug: Affiche les données filtrées pour les succès
-
-        #créé le sous-tableau df_succes pour calculer le temps moyen et le poids moyen uniquement sur les requêtes réussies (Statut 200).
-        nb_succes = len(df_succes)
+        #print(df_succes)  # Debug: Affiche les données filtrées pour les succès
 
         if df_succes.empty:
             return "Aucune analyse réussie (Statut 200) enregistrée pour générer des statistiques."
 
-        nombreHTTP200 = nb_succes
-        total_analyses = len(df)
+        #créé le sous-tableau df_succes pour calculer le temps moyen et le poids moyen uniquement sur les requêtes réussies (Statut 200).
+        nb_succes = len(df_succes)
         taux_reussite = (nb_succes / total_analyses) * 100
+
+        # 2. Analyse groupée par URL (Groupby)
+        #print("\n--- ANALYSE DÉTAILLÉE PAR SITE (GROUPBY) ---")
+
+        # On regroupe par URL et on applique nos trois fonctions d'agrégation
+        df_sites = df_succes.groupby("URL")["Temps_Reponse_Sec"].agg(["mean", "count", "max"])
+        
+        # On renomme les colonnes pour un affichage propre
+        df_sites.columns = ["Vitesse_Moyenne_Sec", "Nombre_Tests", "Temps_Max_Sec"]
+        
+        # On affiche le tableau trié du plus rapide au plus lent
+        #print(df_sites.sort_values(by="Vitesse_Moyenne_Sec").round(3))
+
+        # 3. Affichage allert site lent
+        df_lents = df_succes[df_succes["Temps_Reponse_Sec"] > 2.0]
+        if df_lents.empty:
+            print("Il n'y a pas des sites lents")
+        else:
+            #print(df_lents[["URL","Temps_Reponse_Sec"]].to_string(index=False))
+            df_site_lents = df_lents[["URL","Temps_Reponse_Sec"]].to_string(index=False)
+        
         temps_moyen = df_succes["Temps_Reponse_Sec"].mean()
         poids_moyen = df_succes["Poids_HTML_Ko"].mean()
         site_plus_rapide = df_succes.loc[df_succes["Temps_Reponse_Sec"].idxmin()]["URL"]
@@ -88,10 +112,15 @@ class WebAnalyzer:
 
         rapport = (
             f"\n --- RAPPORT DE PERFORMANCE (PANDAS) ---"
-            f"\n Nombre total de requêtes enregistrées : {total_analyses}"
-            f"\n Taux de réussite des requêtes         : {taux_reussite:.1f}%"
-            f"\n Temps de réponse moyen (Status 200)   : {temps_moyen:.3f} secondes"
-            f"\n Poids moyen du code HTML téléchargé   : {poids_moyen:.2f} Ko"
-            f"\n Site le plus rapide testé             : {site_plus_rapide} ({temps_min:.3f}s)"
+            f"\n Nombre total de requêtes enregistrées          : {total_analyses}"
+            f"\n Taux de réussite des requêtes                  : {taux_reussite:.1f}%"
+            f"\n Temps de réponse moyen (Status 200)            : {temps_moyen:.3f} secondes"
+            f"\n Poids moyen du code HTML téléchargé            : {poids_moyen:.2f} Ko"
+            f"\n Site le plus rapide testé                      : {site_plus_rapide} ({temps_min:.3f}s)"
+            f"\n -- Tableau du plus rapide au plus lent (GROUPBY)"
+            f"\n {df_sites.sort_values(by="Vitesse_Moyenne_Sec").round(3)}"
+            f"\n -- Affichage allert site lent"
+            f"\n {df_site_lents}"
+              
         )
         return rapport

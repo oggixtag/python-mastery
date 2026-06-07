@@ -1,27 +1,105 @@
-## P03 - Gestionnaire de contacts (CLI)
+# 📊 Web Perf Analyzer (Data Edition) - Projet 03
 
-Ce module est une application console pour gerer un repertoire de contacts. L'utilisateur peut ajouter, lister, modifier et supprimer des contacts. Les donnees sont sauvegardees en JSON dans un dossier data a la racine du projet pour conserver l'etat entre les executions.
+Ce module fait partie du dépôt `python-mastery`. C'est une application axée sur la **Data (manipulation de fichiers CSV et analyse statistique avec Pandas)**. Elle permet de mesurer les performances de chargement de pages web, d'historiser les résultats et de générer des rapports détaillés.
 
-### Fonctionnalites
+## 🎯 Objectifs du Projet
 
-- Ajouter un contact (nom, prenom, telephone, email)
-- Afficher tous les contacts
-- Modifier le telephone d'un contact (gestion des doublons par nom)
-- Supprimer un contact (confirmation avant suppression)
-- Persistance des donnees en JSON
+* **Collecte de données** : Envoyer des requêtes HTTP pour mesurer le temps de réponse et le poids HTML de différentes URL.
+* **Persistance (CSV)** : Stocker chaque analyse dans un fichier de données centralisé.
+* **Analyse de données (Pandas)** : Utiliser la puissance de la bibliothèque Pandas pour calculer des moyennes globales, regrouper les données par site (`groupby`) et filtrer les anomalies (alertes de lenteur).
 
-### Structure du module
+---
 
-- main.py : boucle principale, menu, gestion des actions et sauvegarde
-- contact.py : classe Contact, validation et serialization JSON
+## 📁 Structure du Projet
 
-### Utilisation
+```text
+python-mastery/
+├── data/
+│   └── web_perf_metrics.csv       # Base de données CSV générée automatiquement
+├── src/
+│   └── p03_web_perf/
+│       ├── __init__.py            # Initialisation du package
+│       ├── analyzer.py            # Logique d'analyse et calculs Pandas
+│       ├── main.py                # Interface utilisateur en console
+│       └── README.md              # Documentation du projet (ce fichier)
+├── tests/
+│   └── p03_web_perf/
+│       ├── __init__.py            # Package de tests pour le projet 03
+│       └── test_analyzer.py       # Tests unitaires de l'analyseur
+└── requirements.txt               # Dépendances du projet (Pandas, Numpy, etc.)
+```
+---
 
-1) Lancer le programme via main.py
-2) Suivre le menu interactif
-3) Les contacts sont stockes dans data/contacts.json
+## 🛠️ Installer les dépendances
 
-### Notes techniques
+Le projet s'exécute dans un environnement virtuel Python isolé `(venv)` pour garantir la stabilité des dépendances (notamment Pandas).
 
-- Le fichier JSON est cree automatiquement si besoin
-- En cas de fichier absent ou invalide, le programme demarre avec un repertoire vide
+1. **Activer l'environnement virtuel** :
+   ```powershell
+   # Sur Windows (PowerShell)
+   .\venv\Scripts\Activate.ps1
+   
+   ```
+
+   ```bash
+   # Sur Linux/Mac (Bash)
+   source venv/bin/activate
+   ```
+
+---
+
+Installer les dépendances :
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+## Utilisation
+Une fois l'environnement activé, lancez l'application principale depuis la racine du dépôt :
+
+```bash
+python src/p03_web_perf/main.py
+```
+
+---
+
+## 📋 Fonctionnalités du Menu
+
+1. **Analyser une nouvelle URL** : Saisissez une adresse complète (ex: https://www.python.org). Le script calcule ses métriques, détecte les éventuelles erreurs HTTP ou réseau, et ajoute une nouvelle ligne dans le dataset en temps réel.
+
+2. **Générer le rapport statistique (Pandas)** : Analyse le fichier CSV complet pour afficher :
+
+   - Le taux de réussite global des requêtes (pourcentage de codes HTTP 200).
+   - Un tableau croisé et trié par site (groupby) incluant la vitesse moyenne, le nombre total de tests et le temps de réponse maximum enregistré pour chaque domaine.
+   - Une section d'alertes critiques qui isole automatiquement les requêtes trop lentes ayant dépassé le seuil d'exigence fixé à 2.0 secondes.
+
+3. **Quitter** : Ferme proprement l'analyseur de données.
+
+---
+
+## 📊 Métriques Enregistrées (Dataset)
+
+À chaque analyse, le moteur exporte les données vers le fichier data/web_perf_metrics.csv sous les colonnes suivantes :
+
+- Date : Horodatage précis de la requête (AAAA-MM-JJ HH:MM:SS).
+- URL : L'adresse absolue du site web testé.
+- Statut_HTTP : Le code de retour du serveur (ex: 200 pour un succès, 404 pour introuvable, 0 pour une erreur réseau).
+- Temps_Reponse_Sec : Le temps total d'exécution de la requête en secondes (arrondi à 3 décimales).
+- Poids_HTML_Ko : La taille du code source de la page téléchargée en kilo-octets.
+- Erreurs : Message descriptif de l'anomalie en cas d'échec (ou "Aucune" si succès).
+
+---
+
+## ✅ Tests
+
+Les tests du projet 03 sont déjà présents dans `tests/p03_web_perf/` et couvrent l'initialisation de l'analyseur ainsi que le calcul des indicateurs principaux à partir d'un CSV de test.
+
+Commande de validation utilisée :
+
+```bash
+pytest .\tests\p03_web_perf\test_analyzer.py
+```
+
+Résultat observé : `2 passed`.
