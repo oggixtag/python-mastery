@@ -1,7 +1,6 @@
 
-# 🚀 Python Mastery : Le Cursus 105touches
-
-> **"L'art du digital, touche après touche."** Ce repository retrace ma montée en compétence sur l'écosystème Python à travers 7 projets structurants, allant des bases de l'algorithmique à l'automatisation industrielle.
+# 🚀 Python Mastery : 
+> Ce repository retrace ma montée en compétence sur l'écosystème Python à travers 7 projets structurants, allant des bases de l'algorithmique à l'automatisation industrielle.
 
 -----
 
